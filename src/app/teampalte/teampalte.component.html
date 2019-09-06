@@ -1,60 +1,79 @@
-<h2 class="text-center">User profile form</h2>
-<form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)" novalidate class="row justify-content-md-center">
-  <div class="col-md-8">
+<h2 class="text-center">User registration</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="col-md-6 offset-md-3">
+  <div class="form-group row">
+    <label class="col">
+      Email
+      <input type="email" class="form-control" formControlName="email">
+    </label>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched">
+    Invalid email!
+  </div>
+  <fieldset formGroupName="pwGroup">
     <div class="form-group row">
-      <label for="example-text-input" class="col-md-2 col-form-label">Name:</label>
-      <div class="col-md-10">
-        <input [(ngModel)]="profile.username" name="username" #username="ngModel" required minlength="6" class="form-control" type="text"
-               id="example-text-input">
-      </div>
-    </div>
-    <div *ngIf="!username.valid && username.touched" class="alert alert-danger" role="alert">
-      <p *ngIf="username?.errors?.required">Username is required</p>
-      <p *ngIf="username?.errors?.minlength">The input must be of minimum length 6 characters</p>
-    </div>
-    <div class="form-group row">
-      <label for="example-email-input" class="col-md-2 col-form-label">Email:</label>
-      <div class="col-md-10">
-        <input [(ngModel)]="profile.email" name="email" class="form-control" type="email" id="example-email-input">
-      </div>
-    </div>
-    <fieldset ngModelGroup="social">
-      <div class="form-group row">
-        <label for="example-url-fb" class="col-md-2 col-form-label">Facebook:</label>
-        <div class="col-md-10">
-          <input [(ngModel)]="profile.facebook" name="facebook" class="form-control" type="url" id="example-url-fb">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-url-twt" class="col-md-2 col-form-label">Twitter:</label>
-        <div class="col-md-10">
-          <input [(ngModel)]="profile.twitter" name="twitter" class="form-control" type="url" id="example-url-twt">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-url-web" class="col-md-2 col-form-label">Website:</label>
-        <div class="col-md-10">
-          <input [(ngModel)]="profile.website" name="website" class="form-control" type="url" id="example-url-web">
-        </div>
-      </div>
-    </fieldset>
-    <div class="form-group row">
-      <label for="example-tel-input" class="col-md-2 col-form-label">Tel:</label>
-      <div class="col-md-10">
-        <input [(ngModel)]="profile.tel" name="tel" class="form-control" type="tel" id="example-tel-input">
-      </div>
+      <label class="col">
+        Password
+        <input type="password" class="form-control" formControlName="password">
+      </label>
     </div>
     <div class="form-group row">
-      <div class="col-md-10 offset-md-2">
-        <button class="btn btn-primary" type="submit">Submit</button>
-      </div>
+      <label class="col">
+        Confirm Password
+        <input type="password" class="form-control" formControlName="confirmPassword">
+      </label>
     </div>
+  </fieldset>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.hasError('passwordnotmatch', ['pwGroup']) &&
+      registerForm.get('pwGroup').touched">
+    Password does not match!
+  </div>
+  <div class="form-group row">
+    <label class="col">
+      Country
+      <select formControlName="country" class="form-control">
+        <option value="">Chọn</option>
+        <option value="vn">Việt Nam</option>
+        <option value="us">US</option>
+      </select>
+    </label>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.get('country').invalid && registerForm.get('country').touched">
+    Country is required!
+  </div>
+  <div class="form-group row">
+    <label class="col">
+      Age
+      <input type="number" class="form-control" formControlName="age">
+    </label>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.get('age').invalid && registerForm.get('age').touched">
+    You have to be over 18 to register an account
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      Gender
+      <label><input type="radio" formControlName="gender" value="male">Male</label>
+      <label><input type="radio" formControlName="gender" value="female">Female</label>
+    </div>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.get('gender').invalid && registerForm.get('gender').touched">
+    Gender is required!
+  </div>
+  <div class="form-group row">
+    <label class="col">
+      Phone
+      <input type="tel" class="form-control" formControlName="phone" placeholder="+841234567890">
+    </label>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="registerForm.get('phone').invalid && registerForm.get('phone').touched">
+    <span *ngIf="registerForm.get('phone').hasError('required')">Phone is required</span>
+    <span *ngIf="registerForm.get('phone').hasError('pattern')">Phone must start with +84 followed by 9 or 10 digits.</span>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-info" type="submit">Submit</button>
   </div>
 </form>
 
 <pre>
-  {{profileForm.value | json}}
-</pre>
-<pre>
-  {{profile | json}}
-</pre>
+{{ registerForm.value | json}}
+</pre>0
